@@ -21,7 +21,7 @@ return new class extends Migration
                   ->onDelete('cascade');
 
             $table->foreign('Autor_CodAu') 
-                  ->references('Cod') 
+                  ->references('CodAu') 
                   ->on('Autor')
                   ->onDelete('cascade');
 

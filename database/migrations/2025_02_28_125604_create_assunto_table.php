@@ -11,10 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('assuntos', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
         Schema::create('Assunto', function (Blueprint $table) {
             $table->bigIncrements('CodAs'); // Define 'Cod' como chave primária autoincremental
             $table->string('Descricao');

@@ -11,17 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('livros', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-
         Schema::create('Livro', function (Blueprint $table) {
             $table->bigIncrements('CodLi'); // Define 'Cod' como chave primária autoincremental
             $table->string('Titulo');
             $table->string('Editora');
             $table->integer('Edicao');
             $table->year('AnoPublicacao');
+            $table->decimal('Valor', 8, 2);
             $table->timestamps();
         });
     }
