@@ -1,11 +1,11 @@
-{{-- resources/views/livros/create.blade.php --}}
+{{-- resources/views/autores/create.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
 <div class="container mt-4 border-3 rounded-3">
     <div class="row">
         <div class="col-12">
-            <h1 class="mt-3 mb-4">Adicionar Novo Livro</h1>
+            <h1 class="mt-3 mb-4">Adicionar Novo Autor</h1>
         </div>
     </div>
     <div class="row">
@@ -21,12 +21,12 @@
             @endif
         </div>
     </div>
-    <form action="{{ route('livros.store') }}" method="POST">
+    <form action="{{ route('autores.store') }}" method="POST">
         @csrf
-        @include('livros.partials.form')
+        @include('autores.partials.form')
         <div class="row">
             <div class="col-12 text-end">
-                <button type="submit" class="btn btn-primary mt-3 mb-3">Salvar Livro</button>
+                <button type="submit" class="btn btn-primary mt-3 mb-3">Salvar Autor</button>
             </div>
         </div>
     </form>

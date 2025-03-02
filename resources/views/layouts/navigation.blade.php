@@ -15,11 +15,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('assuntos.index')" :active="request()->routeIs('assuntos.index')">
+                        {{ __('Assuntos') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('autores.index')" :active="request()->routeIs('autores.index')">
+                        {{ __('Autores') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('livros.index')" :active="request()->routeIs('livros.index')">
                         {{ __('Livros') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('livros.create')" :active="request()->routeIs('livros.create')">
-                        {{ __('LivrosAdicionar') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -40,10 +43,6 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -51,7 +50,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Sair') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -76,6 +75,15 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('assuntos.index')" :active="request()->routeIs('assuntos.index')">
+                {{ __('Assuntos') }}
+            </x-nav-link>
+            <x-responsive-nav-link :href="route('autores.index')" :active="request()->routeIs('autores.index')">
+                {{ __('Autores') }}
+            </x-nav-link>
+            <x-responsive-nav-link :href="route('livros.index')" :active="request()->routeIs('livros.index')">
+                {{ __('Livros') }}
+            </x-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -86,10 +94,6 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -97,7 +101,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Sair') }}
                     </x-responsive-nav-link>
                 </form>
             </div>

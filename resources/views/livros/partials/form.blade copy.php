@@ -16,22 +16,16 @@
             <input type="text" class="form-control" name="Editora" value="{{ old('Editora', $livro->Editora ?? '') }}" required>
         </div>
     </div>
-    <div class="col-2">
+    <div class="col-3">
         <div class="form-group">
             <label for="Edicao">Edição:</label>
             <input type="number" class="form-control" name="Edicao" value="{{ old('Edicao', $livro->Edicao ?? '') }}" required>
         </div>
     </div>
-    <div class="col-2">
+    <div class="col-3">
         <div class="form-group">
             <label for="AnoPublicacao">Ano de Publicação:</label>
             <input type="number" class="form-control" name="AnoPublicacao" value="{{ old('AnoPublicacao', $livro->AnoPublicacao ?? '') }}" required>
-        </div>
-    </div>
-    <div class="col-2">
-        <div class="form-group">
-            <label for="Valor">Valor:</label>
-            <input type="text" class="form-control" name="Valor" value="{{ old('Valor', $livro->Valor ?? '') }}" required  onkeyup="formatarMoeda(this)">
         </div>
     </div>
 </div>
@@ -40,15 +34,20 @@
     <div class="col-6">
         <div class="form-group">
             <label for="autores">Autores:</label>
-            <select name="Autores[]" class="form-control" id="select-autores" multiple>
+            <select name="autores[]" class="form-control" multiple>
                 @foreach($autores as $autor)
-                    <option value="{{ $autor->CodAu }}" {{ (isset($livro) && $livro->autores->pluck('CodAu')->contains($autor->CodAu)) ? 'selected' : '' }}>
-                        {{ $autor->Nome }}
+                    <option value="{{ $autor->id }}" {{ (isset($livro) && $livro->autores->pluck('id')->contains($autor->id)) ? 'selected' : '' }}>
+                        {{ $autor->nome }}
                     </option>
                 @endforeach
             </select>
+            <select id="select-tom" multiple>
+                <option value="1">Opção 1</option>
+                <option value="2">Opção 2</option>
+                <option value="3">Opção 3</option>
+            </select>
             <script>
-                new TomSelect("#select-autores", {
+                new TomSelect("#select-tom", {
                     create: true,
                     sortField: "text",
                 });
@@ -58,37 +57,13 @@
     <div class="col-6">
         <div class="form-group">
             <label for="assuntos">Assuntos:</label>
-            <select name="Assuntos[]" class="form-control" id="select-assuntos" multiple>
+            <select name="assuntos[]" class="form-control" multiple>
                 @foreach($assuntos as $assunto)
-                    <option value="{{ $assunto->CodAs }}" {{ (isset($livro) && $livro->assuntos->pluck('CodAs')->contains($assunto->CodAs)) ? 'selected' : '' }}>
-                        {{ $assunto->Descricao }}
+                    <option value="{{ $assunto->id }}" {{ (isset($livro) && $livro->assuntos->pluck('id')->contains($assunto->id)) ? 'selected' : '' }}>
+                        {{ $assunto->nome }}
                     </option>
                 @endforeach
             </select>
-            <script>
-                new TomSelect("#select-assuntos", {
-                    create: true,
-                    sortField: "text",
-                });
-            </script>
         </div>
     </div>
 </div>
-
-<script>
-    function formatarMoeda(input) {
-        let valor = input.value;
-
-        // Remove caracteres não numéricos, exceto ponto e vírgula
-        valor = valor.replace(/\D/g, "");
-
-        // Converte para número, divide por 100 para obter decimais
-        valor = (parseFloat(valor) / 100).toFixed(2);
-
-        // Formata como moeda (BRL)
-        valor = valor.replace(".", ",");
-
-        // Adiciona símbolo de moeda
-        input.value = "R$ " + valor;
-    }
-</script>

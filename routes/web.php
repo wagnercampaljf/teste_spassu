@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LivroController;
+use App\Http\Controllers\AutorController;
+use App\Http\Controllers\AssuntoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,3 +24,8 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::resource('livros', LivroController::class)->middleware(['auth', 'verified']);
+Route::resource('autores', AutorController::class)->middleware(['auth', 'verified']);
+Route::resource('assuntos', AssuntoController::class)->middleware(['auth', 'verified']);
+
+Route::get('/livros', [LivroController::class, 'index'])->name('livros.index');
+

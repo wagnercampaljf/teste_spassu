@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('Livro_Assunto', function (Blueprint $table) {
             $table->unsignedBigInteger('Livro_CodLi');
-            $table->unsignedBigInteger('Autor_CodAs');
+            $table->unsignedBigInteger('Assunto_CodAs');
             
             $table->foreign('Livro_CodLi') 
                   ->references('CodLi') 
                   ->on('Livro')
                   ->onDelete('cascade');
 
-            $table->foreign('Autor_CodAs') 
+            $table->foreign('Assunto_CodAs') 
                   ->references('CodAs') 
                   ->on('Assunto')
                   ->onDelete('cascade');
 
-            $table->primary(['Livro_CodLi', 'Autor_CodAs']); 
+            $table->primary(['Livro_CodLi', 'Assunto_CodAs']); 
         });
     }
 
