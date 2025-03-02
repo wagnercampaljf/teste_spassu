@@ -7,10 +7,11 @@ use App\Models\Livro;
 use App\Models\Autor;
 use App\Models\Assunto;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\RelatorioLivro;
 
 class RelatorioController extends Controller
 {
-    public function index(Request $request)
+    /*public function index(Request $request)
     {
         $titulo = $request->input('Titulo');
         $editora = $request->input('Editora');
@@ -131,7 +132,117 @@ class RelatorioController extends Controller
 
         // Retorna o PDF para abrir em uma nova aba
         return $pdf->stream('relatorio-livros.pdf');
+    }*/
+
+    public function index(Request $request)
+    {
+        // Captura os filtros do usuário
+        $titulo = $request->input('Titulo');
+        $editora = $request->input('Editora');
+        $autores = $request->input('Autores', []); // Array de IDs
+        $assuntos = $request->input('Assuntos', []); // Array de IDs
+        $anoInicial = $request->input('AnoPublicacaoInicial');
+        $anoFinal = $request->input('AnoPublicacaoFinal');
+
+        // Query base na VIEW
+        $query = RelatorioLivro::query();
+
+        if ($titulo) {
+            $query->where('Titulo', 'like', "%$titulo%");
+        }
+
+        if ($editora) {
+            $query->where('Editora', 'like', "%$editora%");
+        }
+
+        if (!empty($autores)) {
+            foreach ($autores as $autor) {
+                $query->where('Autores', 'like', "%$autor%");
+            }
+        }
+
+        if (!empty($assuntos)) {
+            foreach ($assuntos as $assunto) {
+                $query->where('Assuntos', 'like', "%$assunto%");
+            }
+        }
+
+        if ($anoInicial && $anoFinal) {
+            $query->whereBetween('AnoPublicacao', [$anoInicial, $anoFinal]);
+        } elseif ($anoInicial) {
+            $query->where('AnoPublicacao', '>=', $anoInicial);
+        } elseif ($anoFinal) {
+            $query->where('AnoPublicacao', '<=', $anoFinal);
+        }
+
+        // Paginação para exibição no navegador
+        $livros = $query->paginate(10);
+
+        // Obtém a lista de autores e assuntos para os filtros
+        $autores = Autor::all();
+        $assuntos = Assunto::all();
+
+        return view('relatorios.livros.index', compact('livros', 'autores', 'assuntos'));
     }
 
+    public function gerarPDF(Request $request)
+    {
+        // Captura os filtros do usuário
+        $titulo = $request->input('Titulo');
+        $editora = $request->input('Editora');
+        $autores = $request->input('Autores', []);
+        $assuntos = $request->input('Assuntos', []);
+        $anoInicial = $request->input('AnoPublicacaoInicial');
+        $anoFinal = $request->input('AnoPublicacaoFinal');
+
+        // Query base na VIEW
+        $query = RelatorioLivro::query();
+
+        if ($titulo) {
+            $query->where('Titulo', 'like', "%$titulo%");
+        }
+
+        if ($editora) {
+            $query->where('Editora', 'like', "%$editora%");
+        }
+
+        if (!empty($autores)) {
+            foreach ($autores as $autor) {
+                $query->where('Autores', 'like', "%$autor%");
+            }
+        }
+
+        if (!empty($assuntos)) {
+            foreach ($assuntos as $assunto) {
+                $query->where('Assuntos', 'like', "%$assunto%");
+            }
+        }
+
+        if ($anoInicial && $anoFinal) {
+            $query->whereBetween('AnoPublicacao', [$anoInicial, $anoFinal]);
+        } elseif ($anoInicial) {
+            $query->where('AnoPublicacao', '>=', $anoInicial);
+        } elseif ($anoFinal) {
+            $query->where('AnoPublicacao', '<=', $anoFinal);
+        }
+
+        // Buscar os livros filtrados da VIEW
+        $livros = $query->get();
+
+        // Montar filtros para exibição no PDF
+        $filtros = [
+            'Titulo' => $titulo ?: 'Todos',
+            'Editora' => $editora ?: 'Todos',
+            'Autores' => empty($autores) ? 'Todos' : Autor::whereIn('CodAu', $autores)->pluck('Nome')->join(', '),
+            'Assuntos' => empty($assuntos) ? 'Todos' : Assunto::whereIn('CodAs', $assuntos)->pluck('Descricao')->join(', '),
+            'AnodePublicação' => ($anoInicial || $anoFinal) ? "{$anoInicial} - {$anoFinal}" : 'Todos',
+        ];
+
+        // Gera o PDF
+        $pdf = Pdf::loadView('relatorios.livros.pdf', compact('livros', 'filtros'));
+
+        // Retorna o PDF para abrir em uma nova aba
+        return $pdf->stream('relatorio-livros.pdf');
+    }
 
 }

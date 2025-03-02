@@ -64,8 +64,8 @@
                     <td>{{ $livro->Titulo }}</td>
                     <td>{{ $livro->Editora }}</td>
                     <td style="text-align:center;">{{ $livro->AnoPublicacao }}</td>
-                    <td>{{ $livro->Autores }}</td>
-                    <td>{{ $livro->Assuntos }}</td>
+                    <td>{{ $livro->autores->pluck('Nome')->join(', ') }}</td>
+                    <td>{{ $livro->assuntos->pluck('Descricao')->join(', ') }}</td>
                 </tr>
             @endforeach
         </tbody>

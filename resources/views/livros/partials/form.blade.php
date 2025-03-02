@@ -24,8 +24,16 @@
     </div>
     <div class="col-2">
         <div class="form-group">
-            <label for="AnoPublicacao">Ano de Publicação:</label>
-            <input type="number" class="form-control" name="AnoPublicacao" value="{{ old('AnoPublicacao', $livro->AnoPublicacao ?? '') }}" required>
+            <label for="AnoPublicacao">Ano Publicação:</label>
+            <input 
+                type="number" 
+                class="form-control" 
+                name="AnoPublicacao" 
+                value="{{ old('AnoPublicacao', $livro->AnoPublicacao ?? '') }}" 
+                required
+                min="-2000" max="2099" 
+                step="1"
+                oninput="this.value = this.value.slice(0, 4);">
         </div>
     </div>
     <div class="col-2">
