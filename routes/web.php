@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LivroController;
 use App\Http\Controllers\AutorController;
 use App\Http\Controllers\AssuntoController;
+use App\Http\Controllers\RelatorioController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,5 +28,7 @@ Route::resource('livros', LivroController::class)->middleware(['auth', 'verified
 Route::resource('autores', AutorController::class)->middleware(['auth', 'verified']);
 Route::resource('assuntos', AssuntoController::class)->middleware(['auth', 'verified']);
 
-Route::get('/livros', [LivroController::class, 'index'])->name('livros.index');
+Route::get('/relatorios/livros', [RelatorioController::class, 'index'])->name('relatorios.livros.index');
+Route::get('/relatorios/livros/pdf', [RelatorioController::class, 'gerarPDF'])->name('relatorios.livros.pdf');
+
 
