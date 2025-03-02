@@ -8,10 +8,19 @@ use Illuminate\Support\Facades\Log;
 
 class AutorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $autores = Autor::all();
+            $nome = $request->input('Nome');
+
+            $query = Autor::query();
+
+            if ($nome) {
+                $query->where('Nome', 'like', "%$nome%");
+            }
+
+            $autores = $query->paginate(4);
+
             return view('autores.index', compact('autores'));
         } catch (\Exception $e) {
             Log::error("Erro ao buscar autores: {$e->getMessage()}");

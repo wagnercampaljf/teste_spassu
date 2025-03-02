@@ -17,21 +17,24 @@
     <form method="GET" action="{{ route('livros.index') }}" class="mb-4">
         <div class="row">
             <div class="col-md-4">
-                <input type="text" name="titulo" class="form-control" placeholder="Filtrar por título"
-                value="{{ request('titulo') }}">
+                <input type="text" name="Titulo" class="form-control" placeholder="Filtrar por título"
+                value="{{ request('Titulo') }}">
             </div>
             <div class="col-md-4">
-                <input type="text" name="editora" class="form-control" placeholder="Filtrar por editora"
-                value="{{ request('editora') }}">
+                <input type="text" name="Editora" class="form-control" placeholder="Filtrar por editora"
+                value="{{ request('Editora') }}">
             </div>
             <div class="col-md-4">
-                <input type="number" name="ano_publicacao" class="form-control" placeholder="Ano de Publicação"
-                value="{{ request('ano_publicacao') }}">
+                <input type="number" name="AnoPublicacao" class="form-control" placeholder="Ano de Publicação"
+                value="{{ request('AnoPublicacao') }}">
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-12 text-end">
-                <button type="submit" class="btn btn-primary">Filtrar</button>
+                @if(request()->has('Titulo') || request()->has('Editora') || request()->has('AnoPublicacao'))
+                    <a href="{{ route('livros.index') }}" class="btn btn-secondary me-2"><i class="bi bi-x-circle"></i></a>
+                @endif
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
             </div>
         </div>
     </form>
@@ -85,7 +88,7 @@
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-center">
-                {{ $livros->appends(request()->query())->links() }}
+                {{ $livros->appends(request()->query())->links('vendor.pagination.bootstrap-5') }}
             </div>
         </div>
     </div>

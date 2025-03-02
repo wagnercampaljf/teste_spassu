@@ -8,10 +8,19 @@ use Illuminate\Support\Facades\Log;
 
 class AssuntoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $assuntos = Assunto::all();
+            $descricao = $request->input('Descricao');
+
+            $query = Assunto::query();
+
+            if ($descricao) {
+                $query->where('Descricao', 'like', "%$descricao%");
+            }
+
+            $assuntos = $query->paginate(4);
+
             return view('assuntos.index', compact('assuntos'));
         } catch (\Exception $e) {
             Log::error("Erro ao buscar assuntos: {$e->getMessage()}");

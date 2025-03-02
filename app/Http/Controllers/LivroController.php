@@ -35,16 +35,14 @@ class LivroController extends Controller
                 $query->where('AnoPublicacao', $anoPublicacao);
             }
 
-            // Paginação com 10 itens por página
-            $livros = $query->paginate(1);
+            $livros = $query->paginate(4);
 
-            return view('livros.index', compact('livros'));
-            /*$livros = Livro::all()->map(function ($livro) {
+            $livros->getCollection()->transform(function ($livro) {
                 $livro->Valor = $this->formatarParaMoeda($livro->Valor);
                 return $livro;
             });
 
-            return view('livros.index', compact('livros'));*/
+            return view('livros.index', compact('livros'));
         } catch (\Exception $e) {
             Log::error("Erro ao buscar livros: {$e->getMessage()}");
             return back()->with('error', 'Erro ao buscar livros.');
