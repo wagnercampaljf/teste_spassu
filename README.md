@@ -1,66 +1,147 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Documentação do Projeto Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 1. Criação do Projeto Laravel
+Para iniciar o desenvolvimento, foi criado um novo projeto Laravel com o seguinte comando:
+```sh
+composer create-project laravel/laravel testeSpassu
+```
 
-## About Laravel
+## 2. Configuração do Banco de Dados
+O banco de dados foi criado com o nome **testeSpassu**, e as configurações foram definidas no arquivo `.env`:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=testeSpassu
+DB_USERNAME=root
+DB_PASSWORD=secret
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 3. Instalação do Breeze
+Para autenticação e gerenciamento de usuários, o Breeze foi instalado:
+```sh
+composer require laravel/breeze --dev
+php artisan breeze:install
+php artisan migrate
+npm install && npm run dev
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 4. Criação das Migrations
+As migrations foram criadas para as tabelas **Livro, Assunto, Autor, Livro_Autor e Livro_Assunto**:
+```sh
+php artisan make:migration create_livro_table
+php artisan make:migration create_assunto_table
+php artisan make:migration create_autore_table
+php artisan make:migration create_livro_autor_table
+php artisan make:migration create_livro_assunto_table
+php artisan make:migration create_view_relatorio_livros
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 5. Execução das Migrations
+Após a definição das migrations, elas foram executadas:
+```sh
+php artisan migrate
+```
 
-## Learning Laravel
+## 6. Criação dos Models
+Foram criados os models correspondentes:
+```sh
+php artisan make:model Livro
+php artisan make:model Assunto
+php artisan make:model Autor
+php artisan make:model LivroAutor
+php artisan make:model LivroAssunto
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 7. Criação de Factories e Seeders
+Factories e seeders foram criados para popular o banco de dados com exemplos:
+```sh
+php artisan make:factory LivroFactory --model=Livro
+php artisan make:factory AutorFactory --model=Autor
+php artisan make:factory AssuntoFactory --model=Assunto
+php artisan make:factory LivroAssuntoFactory --model=LivroAssunto
+php artisan make:factory LivroAutorFactory --model=LivroAutor
+php artisan db:seed
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 8. Criação dos Controllers
+Controllers foram criados para gerenciar as operações do sistema:
+```sh
+php artisan make:controller LivroController
+php artisan make:controller AutorController
+php artisan make:controller AssuntoController
+php artisan make:controller RelatorioController
+php artisan make:controller DashboardController
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 9.1 Criação das Views dos CRUDs
+- View: `resources/views/autores/index.blade.php`
+- View: `resources/views/autores/create.blade.php`
+- View: `resources/views/autores/edit.blade.php`
+- View: `resources/views/autores/partials/form.blade.php`
+- View: `resources/views/assuntos/index.blade.php`
+- View: `resources/views/assuntos/create.blade.php`
+- View: `resources/views/assuntos/edit.blade.php`
+- View: `resources/views/assuntos/partials/form.blade.php`
+- View: `resources/views/livros/index.blade.php`
+- View: `resources/views/livros/create.blade.php`
+- View: `resources/views/livros/edit.blade.php`
+- View: `resources/views/livros/partials/form.blade.php`
 
-## Laravel Sponsors
+## 9.2 Criação das Views dos CRUDs para Relatórios
+Foi criada uma view para exibir os relatórios, agrupando livros por autor:
+- View: `resources/views/relatorios/livros/index.blade.php`
+- View: `resources/views/relatorios/livros/pdf.blade.php`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 9.3 Refatoração das telas aplicando estilos e mascaras
+- Views: `Autores`
+- Views: `Assuntos`
+- Views: `Dashboard`
+- Views: `Livros`
+- Views: `Login`
+- Views: `Relatório`
 
-### Premium Partners
+## 10. Instalação do Laravel DOMPDF e Criação de Relatórios
+Para gerar relatórios em PDF, foi instalado o **Laravel DOMPDF**:
+```sh
+composer require barryvdh/laravel-dompdf
+```
+Uma view foi utilizada para exibição e geração dos relatórios.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## 11. Criação de Tela de Filtros para o Relatório
+Foram criadas telas para aplicar filtros nos relatórios com as opções:
+- Título
+- Editora
+- Autores
+- Assuntos
+- Ano inicial
+- Ano final
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 12. Implementação de Testes (TDD)
+Testes foram implementados para garantir a qualidade do código:
+```sh
+php artisan test
+```
 
-## Code of Conduct
+## 13. Tratamento de Exceções
+Foi implementado `try/catch` sempre que possível para evitar erros inesperados no sistema.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 14. Testes das Telas
+Foram realizados testes manuais para verificar o funcionamento correto das interfaces e dos filtros.
 
-## Security Vulnerabilities
+## 15. Configuração do Servidor
+O servidor foi configurado para hospedar o código e rodar o projeto corretamente.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 16. Publicação do Código
+O código foi versionado e enviado para produção:
+```sh
+git init
+git add .
+git commit -m "Primeira versão do projeto"
+git push origin main
+```
 
-## License
+## 17. Teste do Sistema em Produção
+Após subir o sistema, foram realizados testes em ambiente de produção para garantir seu correto funcionamento.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
