@@ -87,6 +87,7 @@
     <table class="table table-hover table-bordered">
         <thead class="table-dark">
             <tr>
+                <th>Autor</th>
                 <th>Título</th>
                 <th>Editora</th>
                 <th>Ano</th>
@@ -95,6 +96,7 @@
         <tbody>
             @forelse ($livros as $livro)
                 <tr>
+                    <td>{{ $livro->Nome }}</td>
                     <td>{{ $livro->Titulo }}</td>
                     <td>{{ $livro->Editora }}</td>
                     <td>{{ $livro->AnoPublicacao }}</td>

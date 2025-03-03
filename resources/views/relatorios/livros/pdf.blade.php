@@ -19,6 +19,12 @@
         .table-filtro td {
             width: 50%; 
         }
+
+        .tr-destaque {
+            margin: 15px;
+            padding: 10px;
+        }
+
     </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -59,7 +65,19 @@
             </tr>
         </thead>
         <tbody>
+
+            @php
+                $autor_atual = null;
+            @endphp
+
             @foreach ($livros as $livro)
+                @if ($autor_atual !== $livro->Nome) 
+                    <!-- Exibir o nome do autor antes de listar seus livros -->
+                    <tr class="tr-destaque"><td colspan="5"><strong>AUTOR: </strong>{{ $livro->Nome }} <hr></td></tr>
+                    @php
+                        $autor_atual = $livro->Nome;
+                    @endphp
+                @endif
                 <tr>
                     <td>{{ $livro->Titulo }}</td>
                     <td>{{ $livro->Editora }}</td>

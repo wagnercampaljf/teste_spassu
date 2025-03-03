@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('relatorios.livros.index')" :active="request()->routeIs('relatorios.livros.index')">
                         {{ __('Relatório (Livros)') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('register')" :active="request()->routeIs('register')">
+                        {{ __('Novo usuário') }}
+                    </x-nav-link>
                 </div>
             </div>
 

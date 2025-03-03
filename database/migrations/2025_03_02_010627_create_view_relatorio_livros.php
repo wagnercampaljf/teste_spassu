@@ -14,21 +14,30 @@ return new class extends Migration
     {
         DB::statement("
             CREATE VIEW view_relatorio_livros AS
-                select	Livro.CodLi,
+                select	Autor.Nome,
+                        Livro.CodLi,
                         Livro.Titulo,
                         Livro.Edicao,
                         Livro.Editora,
                         Livro.Valor,
                         Livro.AnoPublicacao,
-                        GROUP_CONCAT(DISTINCT Autor.Nome ORDER BY Autor.Nome ASC SEPARATOR ', ') AS Autores,
-                        GROUP_CONCAT(DISTINCT Assunto.Descricao ORDER BY Assunto.Descricao ASC SEPARATOR ', ') AS Assuntos
+                        (
+                        select 	GROUP_CONCAT(DISTINCT Autor.Nome ORDER BY Autor.Nome ASC SEPARATOR ', ') AS Autores
+                        from	Livro_Autor
+                                inner join Autor on Autor.CodAu = Livro_Autor.Autor_CodAu
+                        where	Livro_Autor.Livro_CodLi = Livro.CodLi
+                        ) AS Autores,
+                        (
+                        select 	GROUP_CONCAT(DISTINCT Assunto.Descricao ORDER BY Assunto.Descricao ASC SEPARATOR ', ') AS Assuntos
+                        from	Livro_Assunto
+                                inner join Assunto on Assunto.CodAs = Livro_Assunto.Assunto_CodAs
+                        where	Livro_Assunto.Livro_CodLi = Livro.CodLi
+                        ) AS Assuntos
                 from	Livro
                         inner join Livro_Autor on Livro.CodLi = Livro_Autor.Livro_CodLi
                         inner join Autor on Livro_Autor.Autor_CodAu = Autor.CodAu
-                        inner join Livro_Assunto on Livro.CodLi = Livro_Assunto.Livro_CodLi
-                        inner join Assunto on Livro_Assunto.Assunto_CodAs = Assunto.CodAs
-                group by
-                        Livro.CodLi,
+                order by
+                        Autor.nome,
                         Livro.Titulo,
                         Livro.Edicao,
                         Livro.Editora,
