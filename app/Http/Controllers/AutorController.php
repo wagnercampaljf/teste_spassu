@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Autor;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class AutorController extends Controller
 {
@@ -46,6 +47,8 @@ class AutorController extends Controller
             $autor->save();
 
             return redirect()->route('autores.index')->with('success', 'Autor adicionado com sucesso!');
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             Log::error("Erro ao salvar o autor: {$e->getMessage()}");
             return back()->withInput()->with('error', 'Erro ao adicionar o autor.');

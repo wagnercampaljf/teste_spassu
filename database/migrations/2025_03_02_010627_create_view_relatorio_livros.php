@@ -12,6 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Remover a view antes de recriá-la
+        DB::statement("DROP VIEW IF EXISTS view_relatorio_livros");
+
         DB::statement("
             CREATE VIEW view_relatorio_livros AS
                 select	Autor.Nome,

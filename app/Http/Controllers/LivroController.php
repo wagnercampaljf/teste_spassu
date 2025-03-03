@@ -8,6 +8,7 @@ use App\Models\Livro;
 use App\Models\Assunto;
 use App\Models\Autor;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class LivroController extends Controller
 {

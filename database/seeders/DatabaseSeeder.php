@@ -5,6 +5,7 @@ use App\Models\Livro;
 use App\Models\Autor;
 use App\Models\Assunto;
 
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -32,5 +33,13 @@ class DatabaseSeeder extends Seeder
             $assuntos = Assunto::inRandomOrder()->limit(rand(1, 3))->pluck('CodAs');
             $livro->assuntos()->sync($assuntos);
         });
+
+        // Criando usuário fixo para testes
+        User::factory()->create([
+            'name' => 'Usuário Teste',
+            'email' => 'user@testespassu.com',
+            'password' => Hash::make('12345678'),
+            'email_verified_at' => now(), // Garante que o email está verificado
+        ]);
     }
 }
