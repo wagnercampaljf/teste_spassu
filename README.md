@@ -342,7 +342,7 @@ tail -f /var/log/apache2/teste-spassu-error.log
 **Deploy concluído! 🚀**
 
 
-# Documentação do Projeto de Teste Spassu - Deploy para Produção
+# Documentação do Projeto de Teste Spassu - Acesso em Produção
 Foi criado um sistema básico de login, e para teste do sistema em produção seguem as credenciais:
 
 ```sh
